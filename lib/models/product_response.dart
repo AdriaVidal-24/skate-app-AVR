@@ -45,6 +45,14 @@ class Product {
     required this.options,
   });
 
+  String overview() {
+    final category = productTypeValues.reverse[productType]!.split(' - ').last;
+    final price = variants.first.price;
+    final stock = variants.any((v) => v.available) ? "Disponible ara mateix." : "Actualment esgotat.";
+
+    return "El producte $title és de la marca $vendor, dins la categoria $category. Té un preu de $price \$. $stock";
+  }
+
   factory Product.fromRawJson(String str) => Product.fromJson(json.decode(str));
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
