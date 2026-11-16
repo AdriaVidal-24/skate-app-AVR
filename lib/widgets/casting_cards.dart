@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/models/product_response.dart';
 
 class CastingCards extends StatelessWidget {
+  final List<Product> products;
+  const CastingCards({super.key, required this.products});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,14 +13,17 @@ class CastingCards extends StatelessWidget {
       height: 200,
       // color: Colors.red,
       child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) => _CastCard()),
+        itemCount: 10,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext context, int index) => _CastCard(product: products[index])),
     );
   }
 }
 
 class _CastCard extends StatelessWidget {
+  final Product product;
+  const _CastCard({required this.product});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,11 +32,12 @@ class _CastCard extends StatelessWidget {
       // color: Colors.green,
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, 'details',
+              arguments: product),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage('https://placehold.co/150x300/png'),
+              image: NetworkImage(product.images.isNotEmpty ? product.images.first.src : 'https://placehold.co/150x300/png'),
               height: 140,
               width: 100,
               fit: BoxFit.cover,
@@ -39,7 +47,7 @@ class _CastCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            'Nom Actor',
+            product.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
