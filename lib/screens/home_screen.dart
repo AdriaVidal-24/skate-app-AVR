@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               // Targetes principals
-              CardSwiper(),
+              CardSwiper(products: productsProvider.byType(ProductType.SKATE_COMPLETES), title: "Complete decks"),
 
               // Slider de productes
               ProductSlider(products: productsProvider.byType(ProductType.SKATE_DECKS), title: "Decks",),
