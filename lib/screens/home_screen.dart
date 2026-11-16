@@ -12,10 +12,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Productes'),
-        elevation: 0,
-        actions: [
-          IconButton(onPressed: ()  {}, icon: const Icon(Icons.search_outlined))
-        ],
       ),
       body: productsProvider.error != null
         ? _ErrorView(

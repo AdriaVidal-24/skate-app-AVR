@@ -5,6 +5,9 @@ import 'package:movies_app/models/product_response.dart';
 class ProductProvider extends ChangeNotifier {
   List<Product> allProduct = [];
   List<Product> byType(ProductType type) => allProduct.where((p) => p.productType == type).toList();
+  List<Product> similarTo(Product product) => byType(product.productType)
+      .where((p) => p.id != product.id)
+      .toList();
 
   bool isLoading = true;
   String? error;

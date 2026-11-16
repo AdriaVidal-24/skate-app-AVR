@@ -10,10 +10,8 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Product producte =
       ModalRoute.of(context)!.settings.arguments as Product;
-    final List<Product> productes = Provider.of<ProductProvider>(context)
-      .byType(producte.productType)
-      .where((p) => p.id != producte.id)
-      .toList();
+    final List<Product> productes =
+      Provider.of<ProductProvider>(context).similarTo(producte);
 
     return Scaffold(
       body: CustomScrollView(
@@ -80,6 +78,10 @@ class _PosterAndTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    // "Skate - Parts - Wheels" -> "Wheels"
+    final category = productTypeValues.reverse[product.productType]!.split(' - ').last;
+    final disponible = product.variants.any((v) => v.available);
+
     return Container(
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -108,6 +110,7 @@ class _PosterAndTitle extends StatelessWidget {
           ),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   product.title,
@@ -115,13 +118,15 @@ class _PosterAndTitle extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                 ),
-                Row(
-                  children: [
-                    const Icon(Icons.attach_money, size: 15, color: Colors.grey),
-                    const SizedBox(width: 5),
-                    Text('Preu: ${product.variants.first.price} \$', style: textTheme.bodySmall),
-                  ],
-                )
+                const SizedBox(height: 5),
+                _InfoRow(Icons.sell_outlined, 'Marca: ${product.vendor}'),
+                _InfoRow(Icons.category_outlined, 'Categoria: $category'),
+                _InfoRow(Icons.attach_money, 'Preu: ${product.variants.first.price} \$'),
+                _InfoRow(
+                  disponible ? Icons.check_circle_outline : Icons.cancel_outlined,
+                  disponible ? 'Disponible' : 'Esgotat',
+                  color: disponible ? Colors.green : Colors.red,
+                ),
               ],
             ),
           )
@@ -143,6 +148,33 @@ class _Overview extends StatelessWidget {
         product.overview(),
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final Color color;
+  const _InfoRow(this.icon, this.text, {this.color = Colors.grey});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 3),
+      child: Row(
+        children: [
+          Icon(icon, size: 15, color: color),
+          const SizedBox(width: 5),
+          Expanded(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodySmall,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }
