@@ -6,6 +6,9 @@ class ProductProvider extends ChangeNotifier {
   List<Product> allProduct = [];
   List<Product> byType(ProductType type) => allProduct.where((p) => p.productType == type).toList();
 
+  bool isLoading = true;
+  String? error;
+
   ProductProvider() {
     getAllProducts();
   }
@@ -14,11 +17,23 @@ class ProductProvider extends ChangeNotifier {
     var url = Uri.https('www.surfstationstore.com',
       '/collections/skate/products.json', {'limit': '250'});
 
-    final result = await http.get(url);
+    isLoading = true;
+    error = null;
+    notifyListeners();
 
-    final allProductResponse = SkateShop.fromRawJson(result.body);
-    allProduct = allProductResponse.products;
-
+    try {
+      final result = await http.get(url);
+      if (result.statusCode != 200) {
+        error = 'Error del servidor (${result.statusCode})';
+      }
+      else {
+        allProduct = SkateShop.fromRawJson(result.body).products;
+      }
+    }
+    catch (e) {
+      error = 'No s\'ha pogut connectar. Revisa la connexió.';
+    }
+    isLoading = false;
     notifyListeners();
   }
 }

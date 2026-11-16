@@ -17,7 +17,12 @@ class HomeScreen extends StatelessWidget {
           IconButton(onPressed: ()  {}, icon: const Icon(Icons.search_outlined))
         ],
       ),
-      body: SingleChildScrollView(
+      body: productsProvider.error != null
+        ? _ErrorView(
+            message: productsProvider.error!,
+            onRetry: () => productsProvider.getAllProducts(),
+          )
+        : SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -31,6 +36,31 @@ class HomeScreen extends StatelessWidget {
               ProductSlider(products: productsProvider.byType(ProductType.SKATE_PARTS_TRUCKS), title: "Trucks"),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+  const _ErrorView({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.wifi_off, size: 60, color: Colors.grey),
+            const SizedBox(height: 15),
+            Text(message, textAlign: TextAlign.center),
+            const SizedBox(height: 15),
+            ElevatedButton(onPressed: onRetry, child: const Text('Reintentar')),
+          ],
         ),
       ),
     );
