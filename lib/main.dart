@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/providers/product_provider.dart';
 import 'package:movies_app/screens/screens.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(AppState());
+
+class AppState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(), lazy: false,)],
+      child: MyApp(),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Pel·lícules',
+      title: 'Productes',
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => HomeScreen(),
-        'details': (BuildContext context) => DetailsScreen(),
+        '/':(BuildContext context) => HomeScreen(),
+        'details':(BuildContext context) => DetailsScreen(),
       },
       theme: ThemeData.light()
-          .copyWith(appBarTheme: const AppBarTheme(backgroundColor: Colors.indigo)),
+        .copyWith(appBarTheme: const AppBarTheme(backgroundColor: Colors.indigo)),
     );
   }
 }
