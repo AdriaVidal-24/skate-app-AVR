@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/models/product_response.dart';
 import 'package:movies_app/providers/product_provider.dart';
 import 'package:movies_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,10 @@ class HomeScreen extends StatelessWidget {
               CardSwiper(),
 
               // Slider de productes
-              ProductSlider(products: productsProvider.allProduct),
+              ProductSlider(products: productsProvider.byType(ProductType.SKATE_DECKS), title: "Decks",),
+              ProductSlider(products: productsProvider.byType(ProductType.SKATE_PARTS_GRIP_TAPE), title: "Grip tape"),
+              ProductSlider(products: productsProvider.byType(ProductType.SKATE_PARTS_WHEELS), title: "Wheels"),
+              ProductSlider(products: productsProvider.byType(ProductType.SKATE_PARTS_TRUCKS), title: "Trucks"),
             ],
           ),
         ),

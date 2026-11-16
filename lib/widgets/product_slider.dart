@@ -4,7 +4,8 @@ import 'package:movies_app/models/product_response.dart';
 class ProductSlider extends StatelessWidget {
   // const MovieSlider({Key? key}) : super(key: key);
   final List<Product> products;
-  const ProductSlider({Key? key, required this.products}) : super(key: key);
+  final String title;
+  const ProductSlider({Key? key, required this.products, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,10 @@ class ProductSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Populars',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 5),
           Expanded(

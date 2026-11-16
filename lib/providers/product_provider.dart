@@ -4,15 +4,15 @@ import 'package:movies_app/models/product_response.dart';
 
 class ProductProvider extends ChangeNotifier {
   List<Product> allProduct = [];
+  List<Product> byType(ProductType type) => allProduct.where((p) => p.productType == type).toList();
 
   ProductProvider() {
-    print("Product Provider inicialitzat!");
     getAllProducts();
   }
 
   getAllProducts() async {
     var url = Uri.https('www.surfstationstore.com',
-      '/collections/skate/products.json', {'limit': '50'});
+      '/collections/skate/products.json', {'limit': '250'});
 
     final result = await http.get(url);
 
