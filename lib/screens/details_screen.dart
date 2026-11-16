@@ -1,3 +1,4 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/product_response.dart';
 import 'package:movies_app/widgets/widgets.dart';
@@ -80,12 +81,20 @@ class _PosterAndTitle extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/loading.gif'),
-              image: NetworkImage(product.images.isNotEmpty ? product.images.first.src : 'https://placehold.co/300x400/png'),
-              height: 150,
-              width: 120,
-              fit: BoxFit.contain,
+            child: GestureDetector(
+              onTap: () => showImageViewer(
+                context,
+                NetworkImage(product.images.first.src),
+                swipeDismissible: true,
+                doubleTapZoomable: true,
+              ),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/loading.gif'),
+                image: NetworkImage(product.images.isNotEmpty ? product.images.first.src : 'https://placehold.co/300x400/png'),
+                height: 150,
+                width: 120,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(
