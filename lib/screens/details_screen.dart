@@ -24,7 +24,7 @@ class DetailsScreen extends StatelessWidget {
               [
                 _PosterAndTitle(producte),
                 _Overview(producte),
-                CastingCards(products: productes),
+                ProductesSimilars(products: productes),
               ],
             ),
           ),
@@ -90,7 +90,7 @@ class _PosterAndTitle extends StatelessWidget {
             child: GestureDetector(
               onTap: () => showImageViewer(
                 context,
-                NetworkImage(product.images.first.src),
+                NetworkImage(product.images.isNotEmpty ? product.images.first.src : 'https://placehold.co/300x400/png'),
                 swipeDismissible: true,
                 doubleTapZoomable: true,
               ),

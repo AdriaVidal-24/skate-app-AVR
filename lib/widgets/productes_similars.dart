@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/product_response.dart';
 
-class CastingCards extends StatelessWidget {
+class ProductesSimilars extends StatelessWidget {
   final List<Product> products;
-  const CastingCards({super.key, required this.products});
+  const ProductesSimilars({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +13,16 @@ class CastingCards extends StatelessWidget {
       height: 200,
       // color: Colors.red,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: products.length,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) => _CastCard(product: products[index])),
+        itemBuilder: (BuildContext context, int index) => _ProducteSimilar(product: products[index])),
     );
   }
 }
 
-class _CastCard extends StatelessWidget {
+class _ProducteSimilar extends StatelessWidget {
   final Product product;
-  const _CastCard({required this.product});
+  const _ProducteSimilar({required this.product});
 
   @override
   Widget build(BuildContext context) {

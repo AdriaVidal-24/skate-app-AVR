@@ -11,7 +11,7 @@ class ProductSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if (this.products.length == 0) {
+    if (products.isEmpty) {
       return Container(
         width: double.infinity,
         height: size.height * 0.5,
